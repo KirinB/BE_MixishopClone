@@ -1,0 +1,104 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model color {
+  id            Int             @id @default(autoincrement())
+  name          String          @unique(map: "name") @db.VarChar(50)
+  product_color product_color[]
+}
+
+model order {
+  id           Int            @id @default(autoincrement())
+  user_id      Int
+  total_price  Decimal        @db.Decimal(15, 0)
+  status       order_status   @default(Pending)
+  created_at   DateTime?      @default(now()) @db.Timestamp(0)
+  updated_at   DateTime?      @default(now()) @db.Timestamp(0)
+  user         user           @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "order_ibfk_1")
+  order_detail order_detail[]
+
+  @@index([user_id], map: "user_id")
+}
+
+model order_detail {
+  order_id   Int
+  product_id Int
+  quantity   Int
+  price      Decimal @db.Decimal(15, 0)
+  order      order   @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "order_detail_ibfk_1")
+  product    product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "order_detail_ibfk_2")
+
+  @@id([order_id, product_id])
+  @@index([product_id], map: "product_id")
+}
+
+model product {
+  id              Int             @id @default(autoincrement())
+  name            String          @db.VarChar(255)
+  price           Decimal         @db.Decimal(15, 0)
+  description     String?         @db.Text
+  product_type_id Int
+  stock_quantity  Int             @default(0)
+  brand           String          @default("MixiShop") @db.VarChar(255)
+  sku             String          @unique(map: "sku") @db.VarChar(50)
+  created_at      DateTime?       @default(now()) @db.Timestamp(0)
+  updated_at      DateTime?       @default(now()) @db.Timestamp(0)
+  main_image      String          @db.VarChar(255)
+  extra_images    String?         @db.Text
+  order_detail    order_detail[]
+  product_type    product_type    @relation(fields: [product_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "product_ibfk_1")
+  product_color   product_color[]
+
+  @@index([product_type_id], map: "product_type_id")
+}
+
+model product_color {
+  product_id Int
+  color_id   Int
+  product    product @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "product_color_ibfk_1")
+  color      color   @relation(fields: [color_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "product_color_ibfk_2")
+
+  @@id([product_id, color_id])
+  @@index([color_id], map: "color_id")
+}
+
+model product_type {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique(map: "name") @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  image      String?   @db.VarChar(255)
+  product    product[]
+}
+
+model user {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  email      String    @unique(map: "email") @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  phone      String?   @db.VarChar(255)
+  gender     String?   @db.VarChar(255)
+  role       user_role @default(Guest)
+  avatar     String?   @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  order      order[]
+}
+
+enum order_status {
+  Pending
+  Processing
+  Completed
+  Cancelled
+}
+
+enum user_role {
+  Admin
+  Guest
+}
