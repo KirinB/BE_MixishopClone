@@ -11,6 +11,8 @@ import { ProductModule } from './modules/product/product.module';
 import { ProductTypeModule } from './modules/product-type/product-type.module';
 import { UploadCloudModule } from './modules/upload-cloud/upload-cloud.module';
 import { CheckPermissionStrategy } from './modules/auth/permission/permission-strategy';
+import { OrderModule } from './modules/order/order.module';
+import { OrderDetailModule } from './modules/order-detail/order-detail.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { CheckPermissionStrategy } from './modules/auth/permission/permission-st
     ProductModule,
     ProductTypeModule,
     UploadCloudModule,
+    OrderModule,
+    OrderDetailModule,
   ],
   controllers: [AppController],
   providers: [

@@ -147,4 +147,17 @@ export class ProductService {
 
     return `Đã xóa sản phẩm với Id: ${id}`;
   }
+
+  async findManyByIds(ids: number[]) {
+    const items = await this.prisma.product.findMany({
+      where: { id: { in: ids } },
+    });
+
+    const totalPrice = items.reduce((sum, item) => sum + +item.price, 0);
+
+    return {
+      totalPrice,
+      items,
+    };
+  }
 }

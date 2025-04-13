@@ -26,7 +26,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `order_detail`;
 CREATE TABLE `order_detail` (
@@ -99,23 +99,29 @@ CREATE TABLE `user` (
 
 
 
+INSERT INTO `order` (`id`, `user_id`, `total_price`, `status`, `created_at`, `updated_at`) VALUES
+(1, 3, '1150000', 'Pending', '2025-04-11 07:08:34', '2025-04-11 07:08:34');
 
 
+INSERT INTO `order_detail` (`order_id`, `product_id`, `quantity`, `price`) VALUES
+(1, 6, 2, '320000');
+INSERT INTO `order_detail` (`order_id`, `product_id`, `quantity`, `price`) VALUES
+(1, 9, 3, '170000');
 
 
 INSERT INTO `product` (`id`, `name`, `price`, `description`, `product_type_id`, `stock_quantity`, `brand`, `sku`, `created_at`, `updated_at`, `main_image`, `extra_images`) VALUES
 (3, 'Cốc Mixi', '250000', NULL, 1, 200, 'MixiShop', 'Mixi02', '2025-03-31 07:52:42', '2025-04-01 10:08:30', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743407561/images/iexohuwidkrhryrdlwme.png', NULL);
 INSERT INTO `product` (`id`, `name`, `price`, `description`, `product_type_id`, `stock_quantity`, `brand`, `sku`, `created_at`, `updated_at`, `main_image`, `extra_images`) VALUES
-(6, 'Bình giữ nhiệt Mixi', '320000', NULL, 1, 200, 'MixiShop', 'Mixi001', '2025-03-31 09:00:32', '2025-03-31 09:00:32', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743411631/images/nheju6kl7lb1q4fduzzi.jpg', NULL);
+(6, 'Bình giữ nhiệt Mixi', '320000', NULL, 1, 198, 'MixiShop', 'Mixi001', '2025-03-31 09:00:32', '2025-04-11 07:08:34', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743411631/images/nheju6kl7lb1q4fduzzi.jpg', NULL);
 INSERT INTO `product` (`id`, `name`, `price`, `description`, `product_type_id`, `stock_quantity`, `brand`, `sku`, `created_at`, `updated_at`, `main_image`, `extra_images`) VALUES
-(9, 'Bình Giữ Nhiệt Fan Cứng Mixi', '170000', '', 1, 200, 'MixiShop', 'Mixi-002', '2025-04-02 08:02:02', '2025-04-02 08:02:02', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743580921/images/mhowlylvdcpw4w7svq5c.webp', NULL);
+(9, 'Bình Giữ Nhiệt Fan Cứng Mixi', '170000', '', 1, 197, 'MixiShop', 'Mixi-002', '2025-04-02 08:02:02', '2025-04-11 07:08:34', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743580921/images/mhowlylvdcpw4w7svq5c.webp', NULL);
 INSERT INTO `product` (`id`, `name`, `price`, `description`, `product_type_id`, `stock_quantity`, `brand`, `sku`, `created_at`, `updated_at`, `main_image`, `extra_images`) VALUES
 (10, 'Cốc sticker', '250000', '', 1, 200, 'MixiShop', 'Mixi-003', '2025-04-02 08:03:14', '2025-04-02 08:03:14', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743580993/images/l9rtku491iuunljetqm8.png', NULL),
 (11, 'Phụ kiện cốc', '40000', '', 1, 200, 'MixiShop', 'Mixi-004', '2025-04-02 08:05:59', '2025-04-02 08:05:59', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743581158/images/lqw9nacyt8ucgnper65g.jpg', NULL),
 (12, 'Bộ Ghép Hình Mixi – Mixi Block SS9', '399000', '', 2, 200, 'MixiShop', 'MixiLego-09', '2025-04-02 08:07:34', '2025-04-02 08:07:34', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743581253/images/zfzvy8n8qx99eslyhj9k.webp', NULL),
 (13, 'Bộ Ghép Hình Mixi – Mixi Block SS8', '249000', '', 2, 200, 'MixiShop', 'MixiLego-08', '2025-04-02 08:08:46', '2025-04-02 08:08:46', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743581325/images/mw6qhqukuc2gp2gbvvra.webp', NULL),
 (14, 'Dép MixiGaming 2024', '150000', '', 4, 200, 'MixiShop', 'MixiDep-01', '2025-04-02 08:10:11', '2025-04-02 08:10:11', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743581410/images/meov5tsoksihbzql38fl.webp', NULL),
-(15, 'Móc vịt', '50000', '', 3, 200, 'MixiShop', 'MixiLuuNiem-01', '2025-04-02 08:11:18', '2025-04-02 08:11:18', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743581477/images/nz9jmjfrstwbewnonmjg.jpg', NULL),
+(15, 'Móc vịt', '50000', '', 3, 0, 'MixiShop', 'MixiLuuNiem-01', '2025-04-02 08:11:18', '2025-04-11 07:21:55', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743581477/images/nz9jmjfrstwbewnonmjg.jpg', NULL),
 (16, 'Pad chuột MixiGaming', '290000', '', 3, 200, 'MixiShop', 'MixiLuuNiem-02', '2025-04-02 08:12:15', '2025-04-02 08:12:15', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743581534/images/yylihlrh7cc5thnaclck.webp', NULL),
 (17, 'Áo khoác nỉ', '350000', '', 5, 200, 'MixiShop', 'MixiThuDong-01', '2025-04-02 08:13:43', '2025-04-02 08:13:43', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743581622/images/lw5tyzcyyvzqsunyrzpl.webp', NULL),
 (18, 'Áo phông Mixi – Trắng', '250000', '', 8, 200, 'MixiShop', 'MixiThuHe-001', '2025-04-02 08:14:49', '2025-04-02 08:14:49', 'https://res.cloudinary.com/dfq7olhxn/image/upload/v1743581688/images/y9gnx3wmdppqklkt8pk2.jpg', NULL);

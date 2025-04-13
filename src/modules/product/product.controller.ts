@@ -15,6 +15,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Public } from '../auth/decorater/Public';
+import { GetProductsByIdsDto } from './dto/get-product-ids.dto';
 
 @Controller('product')
 export class ProductController {
@@ -55,6 +56,12 @@ export class ProductController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
+  }
+
+  @Public()
+  @Post('by-ids')
+  getProductsByIds(@Body() arrayNumber: GetProductsByIdsDto) {
+    return this.productService.findManyByIds(arrayNumber.ids);
   }
 
   @Patch(':id')
