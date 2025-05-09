@@ -11,6 +11,7 @@ export class ProductTypeService {
     private upload: UploadCloudService,
   ) {}
   async create(createProductTypeDto: CreateProductTypeDto, file: any) {
+    console.log({ file });
     if (!file)
       throw new BadRequestException(`Vui lòng upload file với key image`);
 
@@ -106,14 +107,18 @@ export class ProductTypeService {
     file?: any,
   ) {
     await this.findOne(id);
-    const updateData: Partial<UpdateProductTypeDto> = {
-      ...updateProductTypeDto,
-    };
+
+    let imageUrl: string | undefined;
 
     if (file) {
-      const uploadedImage = await this.upload.uploadCloud(file);
-      updateData.image = uploadedImage.imgUrl;
+      const image = await this.upload.uploadCloud(file);
+      imageUrl = image.imgUrl ?? '';
     }
+
+    const updateData: Partial<UpdateProductTypeDto> = {
+      ...updateProductTypeDto,
+      ...(imageUrl && { image: imageUrl }),
+    };
 
     const updatedProductType = await this.prisma.product_type.update({
       where: { id },

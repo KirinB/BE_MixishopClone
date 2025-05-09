@@ -64,9 +64,14 @@ export class ProductController {
     return this.productService.findManyByIds(arrayNumber.ids);
   }
 
+  @UseInterceptors(FileInterceptor('image'))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+    @UploadedFile() file: any,
+  ) {
+    return this.productService.update(+id, updateProductDto, file);
   }
 
   @Delete(':id')

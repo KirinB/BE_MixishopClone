@@ -60,6 +60,12 @@ CREATE TABLE `order` (
     FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE
 );
 
+ALTER TABLE `order`
+ADD COLUMN `order_code` VARCHAR(255) NULL AFTER `status`
+
+ALTER TABLE `order`
+ADD COLUMN `payment_url` TEXT NULL AFTER `order_code`
+
 CREATE TABLE `order_detail` (
     `order_id` INT,
     `product_id` INT,

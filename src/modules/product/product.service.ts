@@ -123,13 +123,22 @@ export class ProductService {
     return product;
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
+  async update(id: number, updateProductDto: UpdateProductDto, file?: any) {
     await this.findOne(id);
+
+    let imageUrl: string | undefined;
+
+    if (file) {
+      const image = await this.upload.uploadCloud(file);
+      imageUrl = image.imgUrl ?? '';
+    }
+
     const updateData: Partial<UpdateProductDto> = {
       ...updateProductDto,
+      ...(imageUrl && { main_image: imageUrl }),
     };
 
-    const updatedProduct = await this.prisma.product_type.update({
+    const updatedProduct = await this.prisma.product.update({
       where: { id },
       data: updateData,
     });
